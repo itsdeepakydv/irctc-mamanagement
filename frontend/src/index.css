@@ -1,0 +1,23 @@
+/* Reset default browser styles */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: Arial, sans-serif;
+}
+
+/* Set background color */
+body {
+  background-color: #f9f9f9;
+  color: #333;
+}
+
+/* Ensure the root element is visible */
+#root {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  width: 100%;
+}
