@@ -4,7 +4,7 @@ const User = require('../models/User');
 
 
 
-//Logic for Register a new user
+
 exports.register = async (req, res) => {
   const { name, email, password } = req.body;
   try {
@@ -29,7 +29,6 @@ exports.register = async (req, res) => {
 };
 
 
-//Logic for Login  of  existing user
 exports.login = async (req, res) => {
   const { email, password } = req.body;
   console.log('Login request received for email:', email);
@@ -41,7 +40,7 @@ exports.login = async (req, res) => {
       return res.status(401).json({ message: 'Invalid email or password' });
     }
     
-    //console.log('User found:', user);
+
   
     const isPasswordMatch = await bcrypt.compare(password, user.password);
     if (!isPasswordMatch) {

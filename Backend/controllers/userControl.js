@@ -4,8 +4,6 @@ const db = require('../config/dbconfig');
 const Train = require('../models/Train');
 const Booking = require('../models/Booking');
 
-//Logic for getting the available trains and seats accng to src and dest
-
 
 exports.getSeatAvailability = async (req, res) => {
     const { source, destination } = req.query;
@@ -24,7 +22,7 @@ exports.getSeatAvailability = async (req, res) => {
         return res.status(404).json({ message: 'No trains available for the specified route' });
       }
   
-      // Map the available trains with train number and available seats
+      
       const availableTrains = trains.map(train => ({
         trainNumber: train.train_number,
         availableSeats: train.available_seats
@@ -33,7 +31,7 @@ exports.getSeatAvailability = async (req, res) => {
       
       const trainsWithSeats = availableTrains.filter(train => train.availableSeats > 0);
   
-      // count the number of available trains and seat details
+     
       res.status(200).json({
         available: trainsWithSeats.length > 0,
         availableTrainCount: trainsWithSeats.length, 
@@ -46,7 +44,7 @@ exports.getSeatAvailability = async (req, res) => {
   };
   
 
-//Logic for booking the seat with implementataion of LOCKS 
+ 
 exports.bookSeat = async (req, res) => {
     const { trainId, seatsToBook } = req.body;
     const userId = req.user.id;
@@ -79,7 +77,7 @@ exports.bookSeat = async (req, res) => {
         return res.status(400).json({ message: 'Not enough seats available' });
       }
   
-      // Update available seats
+      
       await connection.query('UPDATE trains SET available_seats = available_seats - ? WHERE id = ?', [seatsToBook, trainId]);
       console.log("Seats updated");
   
@@ -87,11 +85,11 @@ exports.bookSeat = async (req, res) => {
       await Booking.create(userId, trainId, seatsToBook, connection);
       console.log("Booking Done"); 
   
-      // Commit the transaction
+      
       await connection.commit();
       res.json({ message: 'Seats booked successfully' });
     } catch (err) {
-      console.error("Error during booking:", err.message); // Log error message
+      console.error("Error during booking:", err.message); 
       await connection.rollback();
       res.status(500).json({ message: 'Error booking seats', error: err.message });
     } finally {

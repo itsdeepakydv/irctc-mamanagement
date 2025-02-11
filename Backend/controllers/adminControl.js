@@ -2,7 +2,7 @@ const db = require('../config/dbconfig');
 const Train = require('../models/Train');
 
 
-//Logic for add train by admin only 
+
 exports.addTrain = async (req, res) => {
     let trains = req.body; 
     
@@ -10,7 +10,6 @@ exports.addTrain = async (req, res) => {
       trains = [trains];
     }
   
-    // Check if the array has at least one train object
     if (trains.length === 0) {
       return res.status(400).json({ message: 'Please provide train data to add.' });
     }
@@ -26,10 +25,9 @@ exports.addTrain = async (req, res) => {
           return res.status(400).json({ message: 'Train number, source, destination, and total seats are required for each train.' });
         }
   
-        // Available seats are initialized to total seats when a new train is added
+
         const availableSeats = totalSeats;
-  
-        // Insert each train into the database
+
         const [result] = await db.query(
           'INSERT INTO trains (train_number, source, destination, total_seats, available_seats) VALUES (?, ?, ?, ?, ?)',
           [trainNumber, source, destination, totalSeats, availableSeats]
@@ -50,7 +48,6 @@ exports.addTrain = async (req, res) => {
 
 
 
-  //Logic of adding seats of train by admin only
   exports.updateTrainSeats = async (req, res) => {
     const { trainId } = req.params;
     const { totalSeats, availableSeats } = req.body; 

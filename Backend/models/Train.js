@@ -4,13 +4,13 @@ const db = require('../config/dbconfig');
 
 
 exports.addTrain = async (trainNumber, source, destination, totalSeats) => {
-  const availableSeats = totalSeats; // Initially, available seats are equal to total seats
+  const availableSeats = totalSeats; 
   try {
     const [result] = await db.query(
       'INSERT INTO trains (train_number, source, destination, total_seats, available_seats) VALUES (?, ?, ?, ?, ?)',
       [trainNumber, source, destination, totalSeats, availableSeats]
     );
-    return result.insertId; // Returning the ID of the newly added train
+    return result.insertId; 
   } catch (err) {
     throw new Error('Error adding train');
   }
@@ -27,9 +27,7 @@ exports.getTrainById = async (trainId) => {
 
 exports.getTrainsByRoute = async (source, destination) => {
     try {
-        // console.log('Source:', source); // Log the source
-        // console.log('Destination:', destination); // Log the destination
-   
+    
          const sourceFormatted = source.trim().toLowerCase();
          const destinationFormatted = destination.trim().toLowerCase();
  
@@ -42,7 +40,7 @@ exports.getTrainsByRoute = async (source, destination) => {
            
          
  
-         //console.log('Query result:', rows); // Log the query result
+      
          return rows;
    
        } catch (err) {
@@ -61,7 +59,7 @@ exports.updateAvailableSeats = async (trainId, seatsToBook) => {
       'UPDATE trains SET available_seats = available_seats - ? WHERE id = ? AND available_seats >= ?',
       [seatsToBook, trainId, seatsToBook]
     );
-    return result.affectedRows > 0; // Return true if seats were successfully booked
+    return result.affectedRows > 0; 
   } catch (err) {
     throw new Error('Error updating available seats');
   }
@@ -73,7 +71,7 @@ exports.updateSeats = async (trainId, totalSeats, availableSeats) => {
         'UPDATE trains SET total_seats = ?, available_seats = ? WHERE id = ?',
         [totalSeats, availableSeats, trainId]
       );
-      return result.affectedRows > 0; // Return true if the update was successful
+      return result.affectedRows > 0; 
     } catch (err) {
       throw new Error('Error updating seats in the database: ' + err.message);
     }
